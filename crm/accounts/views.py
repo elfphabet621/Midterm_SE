@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from matplotlib.style import context
 
 from accounts.decorators import unauthenticated_user
 from .models import *
@@ -9,7 +8,7 @@ from .filters import OrderFilter
 from django.contrib import messages
 
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import Group
+
 
 from django.contrib.auth.decorators import login_required
 from .decorators import allowed_users, unauthenticated_user, admin_only
@@ -25,11 +24,7 @@ def registerPage(request):
             user = form.save()
             username = form.cleaned_data.get('username')
 
-            group = Group.objects.get(name='customer')
-            user.groups.add(group)
-            Customer.objects.create(
-                user=user,
-            )
+            
 
             messages.success(request, 'Account was created for '+ username)
             return redirect('login')
